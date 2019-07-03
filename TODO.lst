@@ -1,3 +1,0 @@
-
-
-如果所傳參數不是asyncFunc 或者 promise, 是否要直接返回？

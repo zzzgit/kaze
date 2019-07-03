@@ -68,7 +68,7 @@ export const whilst = (iteratee: AsyncFunc, test_func: Function): Promise<any> =
 			.then((result: any) => {
 				if (!result) {
 					// 第一次測試就不通過
-					resolve()
+					resolve(null)
 					return PROMISE_INTERRUPT
 				}
 				return iteratee()
@@ -91,7 +91,7 @@ export const whilst2 = (iteratee_func: AsyncFunc, test_func: AssertFunc): Promis
 		while (await test_func()) {
 			await iteratee_func()
 		}
-		return resolve()
+		return resolve(null)
 	})
 }
 // iteratee test_func, 兩個參數的類型應該一致
@@ -123,7 +123,7 @@ export const until = (iteratee: AsyncFunc, test_func: Function): Promise<any> =>
 			.then((result: any) => {
 				if (result) {
 					// 第一次測試就滿足跳出的條件
-					return resolve()
+					return resolve(null)
 				}
 				return repeatAsyncly(resolve, reject)
 			})
