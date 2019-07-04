@@ -1,10 +1,10 @@
 {
-	"noVerify": false,
+	"no-verify": false,
 	"silent": false,
 	"dry-run": false,
 	"first-release": false,
 	"comment": "//major|minor|patch",
 	"release-as": "patch",
-	"prerelease": false, 
+	"prerelease": false,   
 	"sign": false
 }

@@ -14,6 +14,10 @@
 		"lint": "eslint \"./test/**\" \"./src/**\"",
 		"jest": "jest",
 		"test": "npm run lint && jest",
+		"commit": "git-cz",
+		"bbb": "node ./kkk.js",
+		"foo": "echo foo",
+		"bar": "npm run foo > result.txt",
 		"release": "standard-version"
 	},
 	"bugs": "https://github.com/zzzgit/kaze/issues",
@@ -49,6 +53,7 @@
 		"eslint-plugin-promise": "^4.1.1",
 		"eslint-plugin-security": "^1.4.0",
 		"eslint-plugin-unicorn": "^8.0.2",
+		"git-cz": "^3.2.1",
 		"husky": "^2.4.1",
 		"jest": "^24.7.1",
 		"jest-dot-reporter": "^1.0.7",
