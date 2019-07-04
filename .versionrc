@@ -5,6 +5,6 @@
 	"first-release": false,
 	"comment": "//major|minor|patch",
 	"release-as": "patch",
-	"prerelease": false,
+	"prerelease": false, 
 	"sign": false
 }
