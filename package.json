@@ -13,8 +13,7 @@
 		"build": "npm run test && npm run clean && cross-env NODE_ENV=production rollup -c",
 		"lint": "eslint \"./test/**\" \"./src/**\"",
 		"jest": "jest",
-		"test": "npm run lint && jest",
-		"release": "standard-version"
+		"test": "npm run lint && jest"
 	},
 	"bugs": "https://github.com/zzzgit/kaze/issues",
 	"keywords": [
