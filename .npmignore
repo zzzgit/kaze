@@ -16,6 +16,14 @@ package-lock.json
 .editorconfig
 .vscode
 test
+.rpt2_cache*
+.rts2_cache*
+.DS_Store
+.husky
 src
-.rpt2_cache
-.rts2_cache/**
+test
+*.config.js
+permission.sh
+.eslintrc.yml
+tsconfig.*
+.versionrc
