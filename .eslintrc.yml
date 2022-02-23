@@ -2,3 +2,14 @@ parserOptions:
     sourceType: "module"
     project: "./tsconfig.json"
 extends: ["google", "janus/basic", "janus/unicorn", "janus/ts", "janus/node", "janus/promise", "janus/security", "janus/array"]
+rules: {
+    "@typescript-eslint/ban-types": ["error",
+    {
+        "types": {
+            "Function": false,
+        },
+        "extendDefaults": true
+    }
+]
+}
+ignorePatterns: [ "built/**/*", "*.eslintrc.*"]
