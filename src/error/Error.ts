@@ -1,8 +1,8 @@
 import {CustomError} from "ts-custom-error"
 
 class HttpError extends CustomError {
-	public constructor(code: number, message?: string) {
-		console.log(2, code)
+	constructor(code: number, message?: string) {
+		console.log("the code:", code)
 		super(message)
 	}
 }

@@ -6,9 +6,13 @@ import AsyncFunc from "../type/AsyncFunc"
  */
 class Corunner {
 	private _runners_arr: Digester[] = []
+
 	private _tasks_arr: AsyncFunc[] = []
+
 	private _isShutdown: boolean = false
+
 	private _hasStarted: boolean = false
+
 	constructor(n: number) {
 		if (n < 1) {
 			n = 1
@@ -17,6 +21,7 @@ class Corunner {
 			this._runners_arr.push(new Digester(this))
 		}
 	}
+
 	push(tasks: AsyncFunc | AsyncFunc[]): void {
 		if (this._hasStarted) {
 			throw new Error("can't push tasks after started")
@@ -34,6 +39,7 @@ class Corunner {
 			this._tasks_arr.push(item)
 		})
 	}
+
 	start(): Promise<any> {
 		if (this._hasStarted) {
 			throw new Error("already started")
@@ -47,12 +53,14 @@ class Corunner {
 			return result
 		})
 	}
+
 	feed(): AsyncFunc | null | undefined {
 		if (this._isShutdown) {
 			return null
 		}
 		return this._tasks_arr.shift()
 	}
+
 	_shutdown(): void {
 		this._isShutdown = true
 		this._tasks_arr = []

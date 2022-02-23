@@ -25,9 +25,6 @@ export const compose = (arr: AsyncFunc[]): AsyncFunc => {
 			const func = ensureAsyncFunc(item)
 			current_pro = current_pro
 				.then(accumulator => func(accumulator))
-				.catch((e) => {
-					return Promise.reject(e)
-				})
 		})
 		return current_pro
 	}
@@ -82,11 +79,12 @@ export const whilst = (iteratee: AsyncFunc, test_func: Function): Promise<any> =
 			.catch(reject)
 	})
 }
-// 這個方式簡化了代碼，同時也迴避了stack overflow的問題，但是異常處理非常麻煩，需要try catch
+// 這個方式簡化了代碼，同時也迴避了stack overflow的問題，但是異常處理非常麻煩，需要try catch，因為https://eslint.org/docs/rules/no-async-promise-executor
 export const whilst2 = (iteratee_func: AsyncFunc, test_func: AssertFunc): Promise<any> => {
 	if (!test_func) {
 		test_func = () => Promise.resolve(true)
 	}
+	// eslint-disable-next-line no-async-promise-executor
 	return new Promise(async (resolve) => {
 		while (await test_func()) {
 			await iteratee_func()
@@ -158,7 +156,7 @@ export const race = (arr: PromiseHood[]): Promise<any> => {
 		arr.map((item) => {
 			const func = ensureAsyncFunc(item)
 			return func()
-		})
+		}),
 	)
 }
 
@@ -168,7 +166,7 @@ export const parallel = (arr: PromiseHood[]): Promise<any> => {
 		arr.map((item) => {
 			const func = ensureAsyncFunc(item)
 			return func()
-		})
+		}),
 	)
 }
 // parallelLimit，既是同步，又是異步，不知返回什麼才好

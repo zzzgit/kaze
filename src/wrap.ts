@@ -17,7 +17,7 @@ export const wrapCountable = (func: AsyncFunc): AsyncFunc & Countable => {
 			result.__times++
 			return func()
 		},
-		{__times: 0}
+		{__times: 0},
 	)
 	return result
 }
@@ -28,7 +28,7 @@ export const wrapCountableSync = (func: Function): Function => {
 			result.__times++
 			return func()
 		},
-		{__times: 0}
+		{__times: 0},
 	)
 	return result
 }
@@ -71,7 +71,7 @@ export const wrapHalt = (orignFunc: AsyncFunc, halt_n: number): AsyncFunc => {
 
 export const wrapTimeout = (orignFunc: AsyncFunc, timeout_n: number): AsyncFunc => {
 	return () => {
-		return Promise.race([orignFunc(), schedule(timeout_n).then(() => Promise.reject(new Error("timeout")))])
+		return Promise.race([orignFunc(), schedule(timeout_n).then(() => {throw new Error("timeout")})])
 	}
 }
 

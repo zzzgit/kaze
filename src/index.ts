@@ -1,14 +1,14 @@
 import * as util from "./util"
 
-export const compose = util.compose
-export const waterfall = util.waterfall
-export const whilst = util.whilst
-export const until = util.until
-export const repeat = util.repeat
-export const forever = util.forever
-export const race = util.race
-export const parallel = util.parallel
-export const parallelLimit = util.parallelLimit
-export const any = util.any
-export const retry = util.retry
+export const {compose} = util
+export const {waterfall} = util
+export const {whilst} = util
+export const {until} = util
+export const {repeat} = util
+export const {forever} = util
+export const {race} = util
+export const {parallel} = util
+export const {parallelLimit} = util
+export const {any} = util
+export const {retry} = util
 

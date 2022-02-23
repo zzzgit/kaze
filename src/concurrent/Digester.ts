@@ -7,12 +7,17 @@ import Reject from "../type/Reject"
  */
 class Digester {
 	private _feeder: Corunner | null | undefined = null
+
 	private _isShutdown: boolean = false
+
 	_resolve: Resolve = () => {}
+
 	_reject: Reject = () => {}
+
 	constructor(feeder: Corunner) {
 		this._feeder = feeder
 	}
+
 	run(): Promise<any> {
 		if (this._isShutdown) {
 			// throw new Error("already shut down") 外層已經判斷過了
@@ -23,8 +28,9 @@ class Digester {
 			this._repeat()
 		})
 	}
+
 	_repeat(): void {
-		const task = this._feeder && this._feeder.feed()
+		const task = this._feeder?.feed()
 		if (!task) {
 			return this._resolve()
 		}
@@ -38,6 +44,7 @@ class Digester {
 				this._reject(e)
 			})
 	}
+
 	distroy(): void {
 		this._feeder = null
 		this._isShutdown = true
