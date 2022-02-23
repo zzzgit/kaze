@@ -8,11 +8,4 @@ coverage/
 .nyc_output/
 /reports
 selenium-debug.log
-.rpt2_cache/
-*.map
-.rpt2_cache
-.rts2_cache/
-**/*.js
-!index.js
-!*.config.js
-!*rc.js
+.rts2_cache
