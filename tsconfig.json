@@ -3,14 +3,15 @@
 		"target": "ES2017",
 		"module": "commonjs",
 		"lib": ["esnext"],
-		"sourceMap": false,
+		// "sourceMap": false,
 		"moduleResolution": "node",
 		"strictNullChecks": true,
 		"removeComments": true,
 		"declaration": true,
 		"outDir": "./built/lib/",
 		"declarationDir": "./built/t/",
-		"declarationMap": false,
+		"emitDeclarationOnly": true,
+		"declarationMap": true,
 		"preserveWatchOutput": true,
 		"alwaysStrict": true,
 		"diagnostics": true,
@@ -26,6 +27,6 @@
 		"noImplicitReturns": true,
 		"allowSyntheticDefaultImports": true
 	},
-	"exclude": ["node_modules", "**/.eslintrc*"],
-	"include": ["src/**/*", "test/*", "commitlint.config.js", "*.config.*"]
+	"exclude": ["node_modules"],
+	"include": ["src/**/*", "commitlint.config.js", "*.config.*"]
 }
