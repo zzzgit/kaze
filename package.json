@@ -1,6 +1,6 @@
 {
 	"name": "kaze",
-	"version": "0.0.60",
+	"version": "0.0.61",
 	"description": "async flow control lib implemented in promise way",
 	"repository": {
 		"type": "git",
