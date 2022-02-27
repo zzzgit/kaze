@@ -1,7 +1,6 @@
 import * as flow from "../src"
 import AsyncFunc from "../src/type/AsyncFunc"
-
-const samael = require("samael")
+import samael from "samael"
 
 const constants = {
 	ERR_THROWN_IN_THROW_TASK: "ERR_THROWN_IN_THROW_TASK",

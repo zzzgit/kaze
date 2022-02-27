@@ -2,6 +2,7 @@
 	"name": "kaze",
 	"version": "0.0.61",
 	"description": "async flow control lib implemented in promise way",
+	"type": "commonjs",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/zzzgit/kaze"
@@ -42,7 +43,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.12.1",
 		"@typescript-eslint/parser": "^5.12.1",
 		"cross-env": "^7.0.3",
-		"eslint": "^8.9.0",
+		"eslint": "^8.10.0",
 		"eslint-config-google": "^0.14.0",
 		"eslint-config-janus": "^1.1.22",
 		"eslint-plugin-array-func": "^3.1.7",
@@ -55,7 +56,7 @@
 		"jest": "^27.5.1",
 		"jest-dot-reporter": "^1.0.14",
 		"rollup": "^2.68.0",
-		"samael": "^1.0.32",
+		"samael": "^1.0.38",
 		"ts-jest": "^27.1.3",
 		"typescript": "^4.5.5"
 	}
