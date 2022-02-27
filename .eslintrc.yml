@@ -12,4 +12,4 @@ rules: {
     }
 ]
 }
-ignorePatterns: [ "built/**/*", "*.eslintrc.*", "test/**/*"]
+ignorePatterns: [ "built/**/*", "*.eslintrc.*" ]

@@ -1,1 +1,4 @@
 extends: ["janus/jest"]
+parserOptions:
+    sourceType: "module"
+    project: "./test/tsconfig.json"
