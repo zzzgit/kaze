@@ -17,6 +17,11 @@ import {assertFunction, assertInteger, assertPromiseHoodArray, assertFunctionArr
 const PROMISE_INTERRUPT = "PROMISE_INTERRUPT"
 const PROMISE_END = "PROMISE_END"
 
+/**
+ * compose a new promise which execute an array of promises in series, each passing their results to the next promise in the array.
+ * @param {AsyncFunc[]} arr the array of promises
+ * @return {Promise<any>} the composed promise
+ */
 export const compose = (arr: AsyncFunc[]): AsyncFunc => {
 	assertFunctionArray(arr, `[kaze][compose]: the argument should be an array of functions`)
 	return (init: any) => {
@@ -29,13 +34,24 @@ export const compose = (arr: AsyncFunc[]): AsyncFunc => {
 		return current_pro
 	}
 }
-
+/**
+ * Compose a new promise which execute the an array of promises in series, each passing their results to the next promise in the array
+ * @param {AsyncFunc[]} arr the array of promises
+ * @param {any} init the initial value
+ * @return {Promise<any>} the composed promise
+ */
 export const waterfall = (arr: AsyncFunc[], init: any): Promise<any> => {
 	assertFunctionArray(arr, `[kaze][waterfall]: the first argument should be an array of functions`)
 	return compose(arr)(init)
 }
 
-// 兩個參數的類型應該保持一致
+// 兩個參數的類型應該保持一致？
+/**
+ * Compose a new promise which execute the original promise repeatly until the test function return false.
+ * @param {AsyncFunc} iteratee the original promise
+ * @param {Function} test_func the test function
+ * @return {Promise<any>} the composed promise
+ */
 export const whilst = (iteratee: AsyncFunc, test_func: Function): Promise<any> => {
 	assertFunction(iteratee, `[kaze][whilst]: the first argument should be a function which return a promise`)
 	assertFunction(test_func, `[kaze][whilst]: the second argument should be a function`)
@@ -79,7 +95,14 @@ export const whilst = (iteratee: AsyncFunc, test_func: Function): Promise<any> =
 			.catch(reject)
 	})
 }
-// 這個方式簡化了代碼，同時也迴避了stack overflow的問題，但是異常處理非常麻煩，需要try catch，因為https://eslint.org/docs/rules/no-async-promise-executor
+/**
+ * compose a new promise which execute the original promise repeatly until the test function return false.
+ * This function will not be exported in index.ts because it's just an simplified implementation of whilst.
+ * This one can avoid stack overflow but the exception handling is not so convient. See https://eslint.org/docs/rules/no-async-promise-executor for more details.
+ * @param {AsyncFunc} iteratee_func the original promise
+ * @param {AssertFunc} test_func the test function
+ * @return {Promise<any>} the composed promise
+ */
 export const whilst2 = (iteratee_func: AsyncFunc, test_func: AssertFunc): Promise<any> => {
 	if (!test_func) {
 		test_func = () => Promise.resolve(true)
@@ -92,7 +115,12 @@ export const whilst2 = (iteratee_func: AsyncFunc, test_func: AssertFunc): Promis
 		return resolve(null)
 	})
 }
-// iteratee test_func, 兩個參數的類型應該一致
+/**
+ * Compose a new promise which execute the promise until the test_func return true.
+ * @param {AsyncFunc} iteratee the promise which will be executed
+ * @param {Function} test_func the function which will be executed to test the condition
+ * @return {Promise<any>}
+ */
 export const until = (iteratee: AsyncFunc, test_func: Function): Promise<any> => {
 	assertFunction(iteratee, `[kaze][until]: the first argument should be a function which return a promise`)
 	assertFunction(test_func, `[kaze][until]: the second argument should be a function`)
@@ -128,7 +156,12 @@ export const until = (iteratee: AsyncFunc, test_func: Function): Promise<any> =>
 			.catch(reject)
 	})
 }
-// 不帶初始參數 timesSeries
+/**
+ * Compose a new promise which repeat the original promise for times_n times.
+ * @param {AsyncFunc} iteratee the original promise to repeat
+ * @param {number} times_n how many times to repeat
+ * @return {Promise<any>} the composed promise
+ */
 export const repeat = (iteratee: AsyncFunc, times_n: number): Promise<any> => {
 	assertFunction(iteratee, `[kaze][repeat]: the first argument should be a function which return a promise`)
 	assertInteger(times_n, `[kaze][repeat]: the second argument should be an integer`)
@@ -142,14 +175,22 @@ export const repeat = (iteratee: AsyncFunc, times_n: number): Promise<any> => {
 	}
 	return whilst(countable_func, test_func)
 }
-// 不帶初始參數
+/**
+ * Compose a new promise which repeat the original promise forever.
+ * @param {AsyncFunc} iteratee the original promise to repeat
+ * @return {Promise<any>} the composed promise
+ */
 export const forever = (iteratee: AsyncFunc): Promise<any> => {
 	assertFunction(iteratee, `[kaze][forever]: the first argument should be a function which return a promise`)
 	// const iteratee_func = ensureAsyncFunc(iteratee)
 	const test_func = (): Promise<boolean> => Promise.resolve(true)
 	return whilst(iteratee, test_func)
 }
-
+/**
+ * Compose a new promise which is resolved or rejected when any of the provided Promises are resolved or rejected. This method use Promise.race under the hood.
+ * @param {PromiseHood[]} arr the array of promises
+ * @return {Promise<any>} the composed promise
+ */
 export const race = (arr: PromiseHood[]): Promise<any> => {
 	assertPromiseHoodArray(arr, `[kaze][race]: the first argument should be an array of functions or promises`)
 	return Promise.race(
@@ -159,7 +200,11 @@ export const race = (arr: PromiseHood[]): Promise<any> => {
 		}),
 	)
 }
-
+/**
+ * Compose a new promise which execute an array of promises in parallel.
+ * @param {PromiseHood[]} arr an array of promises
+ * @return {Promise<any>} the composed promise
+ */
 export const parallel = (arr: PromiseHood[]): Promise<any> => {
 	assertPromiseHoodArray(arr, `[kaze][parallel]: the argument should be an array of functions or promises`)
 	return Promise.all(
@@ -169,7 +214,12 @@ export const parallel = (arr: PromiseHood[]): Promise<any> => {
 		}),
 	)
 }
-// parallelLimit，既是同步，又是異步，不知返回什麼才好
+/**
+ * Compose a new promise which execute an array of promises in parallel and limit the concurrency by n.
+ * @param {PromiseHood[]} arr an array of promises
+ * @param {number} n the concurrency limit
+ * @return {Promise<any>} the composed promise
+ */
 export const parallelLimit = (arr: PromiseHood[], n: number): Promise<any> => {
 	assertPromiseHoodArray(arr, `[kaze][parallelLimit]: the first argument should be an array of functions or promises`)
 	assertInteger(n, `[kaze][parallelLimit]: the second argument should be an integer`)
@@ -178,7 +228,13 @@ export const parallelLimit = (arr: PromiseHood[], n: number): Promise<any> => {
 	runner.push(func_arr)
 	return runner.start()
 }
-// 內部函數，無需參數檢查，假定test_func永不出錯，邏輯因之更簡單
+/**
+ * Compose a new promise which execute this original promise repeatly while the test_func return true.
+ * This is a inner function, no need to check the arguments. And we inpect that the test_func will never throw an error to make the logic simpler.
+ * @param {AsyncFunc} iteratee_func the original promise to repeat
+ * @param {Function} test_func the test function
+ * @return {Promise<any>} the composed promise
+ */
 const whileas = (iteratee_func: AsyncFunc, test_func: Function): Promise<any> => {
 	// assertFunction(iteratee_func, `[kaze][whileas]: the first argument should be a function`)
 	// assertFunction(test_func, `[kaze][whileas]: the second argument should be a function`)
@@ -226,8 +282,12 @@ const whileas = (iteratee_func: AsyncFunc, test_func: Function): Promise<any> =>
 			})
 	})
 }
-// https://github.com/tc39/proposal-promise-any
-// 任務本身的異常將會忽略，算作失敗，然後嘗試下一個任務
+/**
+ * Compose a new promise which execute an array of promises in series and return the first resolved promise.
+ * This is a loose implementation of the proposal https://github.com/tc39/proposal-promise-any
+ * @param {PromiseHood[]} arr an array of promises
+ * @return {Promise<any>} the composed promise
+ */
 export const any = (arr: PromiseHood[]): Promise<any> => {
 	assertPromiseHoodArray(arr, `[kaze][any]: the argument should be an array of functions or promises`)
 	const len = arr.length
@@ -240,8 +300,14 @@ export const any = (arr: PromiseHood[]): Promise<any> => {
 	return whileas(iteratee_func, test_func)
 }
 
-// interval 可以改成函數形式，使其能動態判斷
-// 目前的實現方式，是否存在內存洩露
+// 目前的實現方式，是否存在內存洩露？
+/**
+ * Compose a new promise which try to solve the original promise until it reach the times_n or the original promise is resolved.
+ * @param {AsyncFunc} iteratee the original promise to repeat
+ * @param {number} times_n how maney times to try in most
+ * @param {number} interval_n the interval between two tries
+ * @return {Promise<any>} the composed promise
+ */
 export const retry = (iteratee: AsyncFunc, times_n: number, interval_n: number): Promise<any> => {
 	assertFunction(iteratee, `[kaze][retry]: the first argument should be a function which return a promise`)
 	// const iteratee_func = ensureAsyncFunc(iteratee)
