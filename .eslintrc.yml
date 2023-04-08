@@ -1,7 +1,7 @@
 parserOptions:
     sourceType: "module"
     project: "./tsconfig.json"
-extends: ["google", "janus/basic", "janus/unicorn", "janus/ts", "janus/node", "janus/promise", "janus/security", "janus/array"]
+extends: [ "janus/ts", "janus/security"]
 rules: {
     "@typescript-eslint/ban-types": ["error",
     {
